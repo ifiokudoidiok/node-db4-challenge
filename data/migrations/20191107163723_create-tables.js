@@ -13,6 +13,15 @@ exports.up = function(knex) {
     .createTable("instructions", table => {
       table.increments("instruction_id");
       table.text("instruction_text").notNullable();
+      table.integer("ingredient_id")
+      .unsigned()
+        // it should not be nullable
+        .notNullable()
+        // it needs to reference the id on the table
+        .references("ingredient_id")
+        .inTable("ingredients")
+        .onDelete("CASCADE")
+        .onUpdate("CASCADE");
     })
     .createTable("steps", table => {
       table.increments("steps_id").notNullable();
